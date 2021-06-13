@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { createProject } from '../../store/actions/projectActions';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
-export class CreateProject extends Component {
+class CreateProject extends Component {
     state = {
         title: '',
         content: ''
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
+        if(!this.state.title) return alert("please fill in title")
+        if(!this.state.content) return alert("please fill in content")
+        this.props.createProject(this.state);
+        this.props.history.push('/')
     }
     handleChange = (e) => {
         this.setState({
@@ -15,6 +21,8 @@ export class CreateProject extends Component {
         })
     }
     render() {
+        const { auth } = this.props;
+        if(!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
                 <form className="white" onSubmit={this.handleSubmit}>
@@ -28,7 +36,7 @@ export class CreateProject extends Component {
                         <textarea className="materialize-textarea" id="content" onChange={this.handleChange} ></textarea>
                     </div>    
                     <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Login</button>
+                        <button className="btn pink lighten-1 z-depth-0">Create New Project</button>
                     </div>
                 </form>
             </div>
@@ -36,4 +44,16 @@ export class CreateProject extends Component {
     }
 }
 
-export default CreateProject
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createProject: (project) => dispatch(createProject(project))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)
