@@ -37,7 +37,16 @@ export const signUp = (newUser) => {
                 initials: newUser.firstName[0] + newUser.lastName[0]
         })
     })
-    .then(() => dispatch({ type: 'SIGNUP_SUCCESS' }))
+    .then(() => {
+        const notification = {
+            content: 'joined the house!',
+            user: `${newUser.firstName} ${newUser.lastName}`,
+            time: firestore.FieldValue.serverTimestamp()
+        }
+        firestore.collection('notifications').add(notification)
+               .then(doc => console.log('notification added', doc))
+               .catch(err => console.log(err))
+               dispatch({ type: 'SIGNUP_SUCCESS' })})
     .catch(err => dispatch({ type: 'SIGNUP_ERROR', err }))
     }
 }

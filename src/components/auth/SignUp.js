@@ -46,7 +46,7 @@ export class SignUp extends Component {
                         { authError ? <p>{authError}</p> : null}
                     </div>
                     <div className="input-field">
-                        <button className="btn pink lighten-1 z-depth-0">Login</button>
+                        <button className="btn pink lighten-1 z-depth-0">Create Account</button>
                     </div>
                 </form>
             </div>
