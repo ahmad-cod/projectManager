@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom';
-import moment from 'moment'
+import moment from 'moment';
 
 const ProjectDetails = (props) => {
     const { project, auth } = props;
+    console.log(props)
 
     if(!auth.uid) return <Redirect to='/signin' />
     if(project){

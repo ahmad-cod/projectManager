@@ -2,17 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks';
+import amnaplan from '../../assets/img/amnaplan.png'
 import { connect } from 'react-redux'
 
 
 const Navbar = (props) => {
     const { auth } = props;
-    // console.log(auth)
+    // console.log(props)
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
     return (
         <nav className='nav-wrapper blue darken-3'>
             <div className='container'>
-                <Link to='/' className="brand-logo">Amna<span>Plan</span></Link>
+                <Link to='/' className="brand-logo"><img src={amnaplan} alt="AmnaPlan Logo"/>
+                </Link>
                 {links}              
             </div>
         </nav>
@@ -20,7 +22,6 @@ const Navbar = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         auth: state.firebase.auth
     }
